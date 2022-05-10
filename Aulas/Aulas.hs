@@ -38,3 +38,40 @@ auxPerfeito x y z
     |x < y || (x > y && z == x) = False
     |modulo x z == 0 = auxPerfeito x (y + z) (z + 1)
     |otherwise = auxPerfeito x y (z + 1)
+
+algarismos :: Double -> Int
+algarismos n
+    |n < 10 = 1
+    |otherwise = 1 + algarismos (n/10)
+
+fatorial :: Int -> Int
+fatorial n
+    |n == 0 || n == 1 = 1
+    |otherwise = n * fatorial (n - 1)
+
+valorFat :: Int -> Int
+auxFat :: Int -> Int -> Int -> Int
+valorFat m
+    |m == 1 = 1
+    |m == 2 = 2
+    |otherwise = auxFat m 1 1
+
+auxFat m n x
+    |x == m = n
+    |otherwise = auxFat m (n + 1) (x * (n + 1))
+
+somaFat :: Int -> Int
+somaFat n
+    |n == 0 = 1
+    |otherwise = fatorial(n) + somaFat (n - 1)
+
+fib :: Int -> Int
+aFib :: Int -> Int -> Int -> Int
+fib n
+    |n == 0 = 0
+    |n == 1 = 1
+    |otherwise = aFib n 1 1
+
+aFib n m p
+    |p == n = p
+    |otherwise = aFib n p (m + p)
