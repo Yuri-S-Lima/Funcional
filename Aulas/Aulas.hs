@@ -28,18 +28,6 @@ auxPrimo x y
     |modulo x y == 0 = False
     |otherwise = auxPrimo x (y - 1)
 
-perfeito :: Int -> Bool {-Função que verifica se determinado número é ou não perfeito-}
-auxPerfeito :: Int -> Int -> Int -> Bool
-perfeito n
-    |n < 6 = False
-    |otherwise = auxPerfeito n 0 1
-
-auxPerfeito x y z
-    |x == y = True
-    |x < y || (x > y && z == x) = False
-    |modulo x z == 0 = auxPerfeito x (y + z) (z + 1)
-    |otherwise = auxPerfeito x y (z + 1)
-
 algarismos :: Double -> Int {-Função que conta a quantidade de algarismos que formam determinado número-}
 algarismos n
     |n < 10 = 1
@@ -66,11 +54,8 @@ somaFat n
     |n == 0 = 1
     |otherwise = fatorial(n) + somaFat (n - 1)
 
-nPrimo :: Int -> Int {-Função que retorna o n-ésimo primo-}
-cont :: Int -> Int -> Int
-nPrimo n = cont n 2
-
-cont n p
-    |n == 0 = p - 1
-    |primo p = cont (n - 1) (p + 1)
-    |otherwise = cont n (p + 1)
+ehPrimo :: Int -> Int -> Bool
+ehPrimo m n
+    |m == 1 || m == 2 = True
+    |((mod m 2) == 0 || (mod m n) == 0) = False
+    |((mod m n) /= 0) = ehPrimo m (n - 1)
