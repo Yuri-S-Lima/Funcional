@@ -25,9 +25,9 @@ ehPGemeo p
     |otherwise = False
 
 -- c. Contabilize quantos pares de primos gêmeos existem abaixo de um número n.
-contPares :: Int -> Int
+contaPar :: Int -> Int
 aux :: Int -> Int -> Int
-contPares c = aux 3 c
+contaPar c = aux 3 c
 
 aux p c
     |p >= c = 0
@@ -40,6 +40,7 @@ auxS :: Int -> Int -> Int -> Int -> Int
 soma c = auxS c 3 5 0
 
 auxS c p q s -- c = intervalo n buscado | p = primeiro primo | q = segundo primo | s = soma
+    |c == 5 = 3
     |q >= c = s
-    |pGemeos p q == True = auxS c (p + 2) (q + 2) (s + (p + q))
+    |pGemeos p q = auxS c (p + 2) (q + 2) (s + (p + q))
     |otherwise = auxS c (p + 2) (q + 2) s
