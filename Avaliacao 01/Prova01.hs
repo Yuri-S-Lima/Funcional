@@ -37,10 +37,10 @@ aux p c
 -- d. Calcule a soma de todos os primos gêmeos que aparecem entre 0 e n.
 soma :: Int -> Int
 auxS :: Int -> Int -> Int -> Int -> Int
-soma c = auxS c 3 5 0
+soma n = auxS n 3 5 0
 
-auxS c p q s -- c = intervalo n buscado | p = primeiro primo | q = segundo primo | s = soma
-    |c == 5 = 3
-    |q >= c = s
-    |pGemeos p q = auxS c (p + 2) (q + 2) (s + (p + q))
-    |otherwise = auxS c (p + 2) (q + 2) s
+auxS n p q s -- c = intervalo n buscado | p = primeiro primo | q = segundo primo | s = soma
+    |n == 5 = 3
+    |q >= n = s
+    |pGemeos p q = auxS n (p + 2) (q + 2) (s + (p + q))
+    |otherwise = auxS n (p + 2) (q + 2) s
