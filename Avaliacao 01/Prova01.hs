@@ -20,7 +20,7 @@ pGemeos x y
 -- b. Receba um determinado número p e retorne um valor booleano informando se ele pertence a algum par de número primo gêmeo.
 ehPGemeo :: Int -> Bool
 ehPGemeo p
-    |p == 2 || mod p 2 == 0 || primo p == False = False
+    |p == 2 || primo p == False = False
     |primo (p - 2) || primo (p + 2) = True
     |otherwise = False
 
