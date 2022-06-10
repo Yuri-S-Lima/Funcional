@@ -38,3 +38,25 @@ fib n
 listaFibonacci :: Int -> [Int]
 listaFibonacci 0 = []
 listaFibonacci n = [fib y | y <- [1..n]]
+
+-- 3. Escreva uma função
+-- em Haskell que receba uma String em binário e retorne uma String com sua representação hexadecimal.
+conv :: String -> Char
+conv "0000" = '0'
+conv "0001" = '1'
+conv "0010" = '2'
+conv "0011" = '3'
+conv "0100" = '4'
+conv "0101" = '5'
+conv "0110" = '6'
+conv "0111" = '7'
+conv "1000" = '8'
+conv "1001" = '9'
+conv "1010" = 'A'
+conv "1011" = 'B'
+conv "1100" = 'C'
+conv "1101" = 'D'
+conv "1110" = 'E'
+conv "1111" = 'F'
+
+--hex :: String -> [String]
