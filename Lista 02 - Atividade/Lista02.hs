@@ -1,3 +1,4 @@
+{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 -- 1. Utilizando Expressões-ZF, implemente as listas abaixo.
 -- a. Ímpares entre 1 e 100
 impares :: [Int]
@@ -41,22 +42,40 @@ listaFibonacci n = [fib y | y <- [1..n]]
 
 -- 3. Escreva uma função
 -- em Haskell que receba uma String em binário e retorne uma String com sua representação hexadecimal.
-conv :: String -> Char
-conv "0000" = '0'
-conv "0001" = '1'
-conv "0010" = '2'
-conv "0011" = '3'
-conv "0100" = '4'
-conv "0101" = '5'
-conv "0110" = '6'
-conv "0111" = '7'
-conv "1000" = '8'
-conv "1001" = '9'
-conv "1010" = 'A'
-conv "1011" = 'B'
-conv "1100" = 'C'
-conv "1101" = 'D'
-conv "1110" = 'E'
-conv "1111" = 'F'
+type Binario = (String, Char)
+conv :: [Binario]
+conv = [("0000", '0'),("0001", '1'), ("0010", '2'), ("0011", '3'), ("0100", '4'), ("0101", '5'), ("0110", '6'), ("0111", '7'), ("1000", '8'), ("1001", '9'), ("1010", 'A'), ("1011", 'B'), ("1100", 'C'), ("1101", 'D'), ("1110", 'E'), ("1111", 'F')]
 
---hex :: String -> [String]
+verifica :: String -> String
+verifica s
+    |mod (length s) 4 /= 0 && mod (length s) 4 == 1 = "000" ++ s
+    |mod (length s) 4 /= 0 && mod (length s) 4 == 2 = "00" ++ s
+    |mod (length s) 4 /= 0 && mod (length s) 4 == 3 = "0" ++ s
+    |otherwise = s
+
+voltaHex :: Binario -> Char
+voltaHex (bin, hex) = hex
+
+buscaBin :: Binario -> String
+buscaBin (bin, hex) = bin
+
+binHexa :: String -> [Binario] -> String
+binHexa b (x:xs)
+    |null xs = [voltaHex x]
+    |b == buscaBin x = [voltaHex x]
+    |otherwise = binHexa b xs
+
+converteStr :: [String] -> String
+converteStr (x:xs)
+    |null xs = x
+    |otherwise = x ++ converteStr xs
+
+hexZF :: String -> String
+hexZF [] = ""
+hexZF str = [t | s <- [verifica str], t <- binHexa (converteStr [take 4 s]) conv ] ++ hexZF (drop 4 (verifica str))
+
+-- Resolução sem ZF
+hex :: String -> String
+hex str
+    |null str = ""
+    |otherwise = binHexa (take 4 (verifica str)) conv ++ hex (drop 4 (verifica str))
