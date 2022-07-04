@@ -1,4 +1,5 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
+import Data.List (nub)
 -- 1. Você está desenvolvendo um novo algoritmo de compressão de dados em Haskell e deseja
 -- analisar quais dados mais se repetem em uma determinada lista. Sendo assim, você resolve
 -- criar a função analise que organiza os dados analisados em uma lista de tuplas contendo cada
@@ -42,3 +43,5 @@ ordenaFreq str
     |length str > 1 =  head[pegChar x | x <- ordenaStr[(contagem y str, y) | y <- str]]
                       : ordenaFreq (percorre (head[pegChar x | x <- ordenaStr[(contagem y str, y) | y <- str]]) [ pegChar x | x <- ordenaStr[ (contagem y str, y) | y <- str]])
     |otherwise = str 
+
+--ordenaFreq str = nub ([pegChar x | x <- ordenaStr[(contagem y str, y) | y <- str]])

@@ -79,3 +79,10 @@ hex :: String -> String
 hex str
     |null str = ""
     |otherwise = binHexa (take 4 (verifica str)) conv ++ hex (drop 4 (verifica str))
+
+-- Torre de Hanói
+hanoi :: Int -> Int -> Int -> Int -> [String]
+hanoi 0 _ _ _ = []
+hanoi n origem auxiliar destino
+    |n == 1 = [show origem ++ "->" ++ show destino]
+    |otherwise = hanoi (n - 1) origem destino auxiliar ++ [show origem ++ "->" ++ show destino] ++ hanoi (n - 1) auxiliar origem destino

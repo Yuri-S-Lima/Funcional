@@ -252,3 +252,25 @@ retorno imc
 
 classifica :: [Informacoes] -> [(Int, String)]
 classifica lista = [ (i, retorno (p / (h * h)) ) |l <- lista, i <- [pegaId l], p <- [pesoKG l], h <- [altura l]]
+
+-- 26. Defina uma função forte ∶∶ String → Bool
+-- para verificar se uma palavra-passe dada numa cadeia de
+-- caracteres é forte segundo os seguintes critérios: deve ter 8
+-- caracteres ou mais e pelo menos uma letra maiúscula, uma letra
+-- minúscula e um algarismo. Sugestão: use a função or ∶∶ [Bool] → Bool e listas em
+-- compreensão.
+verificaMaiusculo :: String -> Int
+verificaMaiusculo str = length[x | x <- str, x >= 'A' && x <= 'Z']
+
+verificaMinusculo :: String -> Int
+verificaMinusculo str = length[x | x <- str, x >= 'a' && x <= 'z']
+
+verificaAlgarismo :: String -> Int
+verificaAlgarismo str = length[x | x <- str, x >= '0' && x <= '9']
+
+forte :: String -> Bool
+forte [] = False
+forte str
+    |length str < 8 = False
+    |verificaMaiusculo str > 0 && verificaMinusculo str > 0 && verificaAlgarismo str > 0 = True
+    |otherwise = False
