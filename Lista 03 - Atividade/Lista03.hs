@@ -18,6 +18,13 @@ verifica n (x:xs)
 pertence :: Int -> Retorno
 pertence n = (n, verifica n [1,3..500])
 
+pertenceV2 :: Int -> Bool
+pertenceV2 n = or [n == l | l <- [1,3..500]]
+
+-- com alta ordem e polimorfismo
+pertenceV3 :: Eq a => a -> [a] -> Bool
+pertenceV3 n l = or (map (== n) l)
+
 -- 2. Escreva uma função que retorne o maior elemento de uma lista de inteiros.
 buscaMaior :: [Int] -> Int -> Int
 buscaMaior (x:xs) n
@@ -29,15 +36,29 @@ buscaMaior (x:xs) n
 maiorElemento :: [Int] -> Int
 maiorElemento l = buscaMaior l 0
 
+maiorInt :: [Int] -> Int
+maiorInt [] = 0
+maiorInt (x : xs)
+  | x >= maiorInt xs = x
+  | otherwise = maiorInt xs
+
 -- 3. Escreva uma função que receba um número inteiro positivo n,
 -- uma lista e retorne o n-ésimo elemento da lista.
 nElemento :: Int -> [Int] -> Int
 nElemento n lista = lista!!n
 
+-- com polimorfismo
+nElemento2 :: Int -> [a] -> a
+nElemento2 n lista = lista!!n
+
 -- 4. Escreva uma função que retire o n-ésimo elemento de uma lista.
 -- Exemplo: "abcdefghi" 3 -> "abdefghi"
 retira :: [Int] -> Int -> [Int]
 retira lista n = [x | x <- lista, x /= lista !! n]
+
+-- com polimorfismo e alta ordem
+retiraV2 :: Eq a => [a] -> Int -> [a]
+retiraV2 lista n = filter(\x -> x /= lista !! n) lista
 
 -- 5. Escreva uma função que receba uma frase e diga se esta é um palíndromo. 
 -- Para verificar se uma frase é palíndromo basta verificar se ela é igual à sua reversa 
@@ -65,11 +86,25 @@ elimina str
     |length str > 1 = compara [head str] [head (tail str)] ++ elimina (tail str)
     |otherwise = str
 
+eliminaV2 :: String -> String
+eliminaV2 [] = []
+eliminaV2 (x:xs) =  x : eliminaV2 [a | a <- x : xs, a /= x]
+
+-- com polimorfismo
+eliminaV3 :: Eq a => [a] -> [a]
+eliminaV3 [] = []
+eliminaV3 (x:xs) = x : eliminaV3 [a | a <- x : xs, a /= x]
+
 -- 7. Escreva uma função que duplique cada elemento de uma lista.
 -- Exemplo: [1, 2, 3] -> [1,1,2,2,3,3]
 duplica :: [Int] -> [Int]
 duplica [] = []
 duplica (x:xs) = x : x : duplica xs
+
+-- com polimorfismo
+duplicaV2 :: [a] -> [a]
+duplicaV2 [] = []
+duplicaV2 (x:xs) = x : x : duplicaV2 xs
 
 -- 8. Escreva uma função que recebe uma String e retorna a primeira
 -- palavra dessa String sem contar pontuação.
@@ -80,6 +115,14 @@ palavra (x:xs)
     |null xs = [x]
     |verificacao = ""
     |otherwise = x : palavra xs
+    where
+        verificacao = x == ',' || x == '.' || x == ';' || x == ' '
+
+palavraV2 :: String -> String
+palavraV2 [] = []
+palavraV2 (x:xs)
+    |verificacao = []
+    |otherwise = x : palavraV2 xs 
     where
         verificacao = x == ',' || x == '.' || x == ';' || x == ' '
 
@@ -96,6 +139,16 @@ troca t l
 moverDireita :: [Int] -> [Int]
 moverDireita lista = troca (length lista) lista
 
+-- com polimorfismo
+
+trocaV2 :: Int -> [a] -> [a]
+trocaV2 t l
+    |t > 1 = trocaV2 (t - 1) (head (reverse l) : reverse(tail (reverse l)))
+    |otherwise = l
+
+moverDireitaV2 :: [a] -> [a]
+moverDireitaV2 lista = trocaV2 (length lista) lista
+
 -- 10. Implemente uma função que recebe duas listas sem elementos
 -- repetidos e retorna uma lista com elementos comuns entre elas.
 -- Exemplo: intercede [1,2,3,4] [2,3,4,5] -> [2,3,4]
@@ -108,6 +161,10 @@ lista2 = [0,3..100]
 intercede :: [Int] -> [Int] -> [Int]
 intercede l1 l2 = [x |x <- l1, y <- l2, x == y]
 
+-- com polimorfismo
+intercedeV2 :: Eq a => [a] -> [a] -> [a]
+intercedeV2 l1 l2 = [x | x <- l1, y <- l2, x == y]
+
 -- 11. Implemente a função 'split', que recebe um número inteiro n e uma
 -- lista de números inteiros e retorna uma tupla onde o primeiro
 -- elemento é uma lista dos itens maiores que n e o segundo
@@ -119,7 +176,11 @@ listaVinte :: [Int]
 listaVinte = [1..20]
 
 split :: Int -> [Int] -> Itens
-split n lista = (take n lista, drop n lista)
+split n lista = ([x | x <- lista, x > n], [y | y <- lista, y <= n])
+
+-- com polimorfismo
+splitV2 :: Ord a => a -> [a] -> ([a],[a])
+splitV2 n lista = ([x | x <- lista, x > n], [y | y <- lista, y <= n])
 
 -- 12. Escreva uma função que dados dois índices, m e n, extraia da
 -- lista os elementos compreendidos entre entre esses valores, onde
